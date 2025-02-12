@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .toggle-button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .slider-container {
+            position: relative;
+            width: 300px;
+            height: 50px;
+        }
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        .slider:hover {
+            opacity: 1;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4a4a4a;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            color: #000;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: red;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Webpage</h1>
+    </header>
+    <main>
+        <button class="toggle-button" onclick="toggleBackground()">Toggle Background Color</button>
+
+        <div class="slider-container" id="sliderContainer">
+            <input type="range" min="12" max="36" value="18" class="slider" id="fontSizeSlider" oninput="updateFontSize(this.value)">
+            <span id="fontSizeDisplay">Font Size: 18px</span>
+        </div>
+
+        <button id="openModal" onclick="openModal()">Open Modal</button>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Modal Title</h2>
+                <p>This is a sample modal content. You can customize it as needed.</p>
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+
+        <form id="userForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result">
+            <h2>Result</h2>
+            <p id="resultText">Your submission will appear here.</p>
+        </div>
+    </main>
+    <select id="dropdownMenu" onchange="showCustomMessage()">
+        <option value="">How does your Laughter expression look?</option>
+        <option value="option1">Laughter 😂</option>
+        <option value="option2">Shy 🤭</option>
+        <option value="option3">Burst out 🤣</option>
+    </select>
+
+    <script>
+        // JavaScript for event handling, interactive elements, and form validation
+
+        // Toggle background color
+        function toggleBackground() {
+            const body = document.body;
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+        }
+
+        // Update font size
+        function updateFontSize(value) {
+            document.getElementById('fontSizeDisplay').textContent = `Font Size: ${value}px`;
+            document.querySelector('body').style.fontSize = value + 'px';
+        }
+
+        // Open modal
+        function openModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Show custom message from dropdown
+        function showCustomMessage() {
+            const selectedValue = document.getElementById('dropdownMenu').value;
+            const customMessageDiv = document.getElementById('resultText');
+            customMessageDiv.textContent = `You selected: ${selectedValue}`;
+        }
+
+        // Form submission handling
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message').value;
+
+            // Email validation
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Password validation
+            function validatePassword(password) {
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+                return passwordRegex.test(password);
+            }
+
+            // Display validation results
+            const resultDiv = document.getElementById('resultText');
+            resultDiv.textContent = '';
+
+            if (name.length < 3) {
+                resultDiv.textContent += 'Name length is too short (must be at least 3 characters)\n';
+            }
+            if (!validateEmail(email)) {
+                resultDiv.textContent += 'Invalid email format\n';
+            }
+            if (!validatePassword(password)) {
+                resultDiv.textContent += 'Password is invalid (must be at least 8 characters long, contain one uppercase letter, and one number)\n';
+            }
+
+            if (resultDiv.textContent === '') {
+                resultDiv.textContent = `Name: ${name}, Email: ${email}, Password: ${password}, Message: ${message}`;
+            } else {
+                alert('Please fix the following issues:\n' + resultDiv.textContent);
+            }
+        });
+    </script>
+</body>
+</html>
